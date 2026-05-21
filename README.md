@@ -73,6 +73,33 @@ Server Express akan otomatis:
 ### 3) Akses aplikasi
 - App + API: `http://localhost:3000`
 
+## Backup database (siap dipakai untuk production)
+### 1) Buat backup
+Jalankan perintah berikut dari root project:
+- `npm run db:backup`
+
+Output backup otomatis tersimpan ke folder `backups/` dengan nama bertimestamp, contoh:
+- `backups/crud-backup-2026-05-21T18-00-00-000Z.sqlite`
+
+### 2) Opsi custom path (jika dibutuhkan)
+- Custom sumber DB + folder hasil backup:
+  `DB_PATH=/path/ke/crud.sqlite BACKUP_DIR=/path/ke/folder-backup npm run db:backup`
+- Custom file output langsung:
+  `DB_PATH=/path/ke/crud.sqlite BACKUP_FILE=/path/ke/backup-prod.sqlite npm run db:backup`
+
+### 3) Verifikasi file backup
+Pastikan file backup terbentuk dan ukurannya > 0 byte sebelum dipindahkan ke server production.
+
+### 4) Restore di server production
+1. Stop aplikasi / service terlebih dahulu (PM2/systemd).
+2. Simpan salinan DB production lama sebagai cadangan.
+3. Replace file DB production dengan file backup `.sqlite`.
+4. Start ulang aplikasi / service.
+
+Contoh restore (Linux):
+- `cp /var/www/app/data/crud.sqlite /var/www/app/data/crud.sqlite.bak`
+- `cp /path/backup/crud-backup-*.sqlite /var/www/app/data/crud.sqlite`
+
 ## Deploy production di server baru (ringkas)
 1. Install Node.js LTS.
 2. Clone project:
