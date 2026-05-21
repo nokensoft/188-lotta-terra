@@ -1,0 +1,19 @@
+[Unit]
+Description=LottaTerra API (Node.js)
+After=network.target
+
+[Service]
+Type=simple
+User=lottaterra
+Group=lottaterra
+WorkingDirectory=/home/lottaterra/htdocs/lottaterra.com
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/bin/env node /home/lottaterra/htdocs/lottaterra.com/server.js
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target
